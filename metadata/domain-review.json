@@ -1,0 +1,73 @@
+{
+  "repo": "ion-ui-form-trail",
+  "language": "Lua",
+  "category": "Frontend apps",
+  "goal": "Develop a Lua command-oriented project for form scenarios with framed sample traffic, bounds and ordering tests, and explicit failure cases.",
+  "review_model": {
+    "terms": [
+      "view drift",
+      "state pressure",
+      "layout risk",
+      "interaction cost"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "view drift",
+      "signal": 43,
+      "slack": 54,
+      "drag": 17,
+      "confidence": 64,
+      "score": 153,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "state pressure",
+      "signal": 79,
+      "slack": 39,
+      "drag": 21,
+      "confidence": 74,
+      "score": 208,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "layout risk",
+      "signal": 76,
+      "slack": 29,
+      "drag": 27,
+      "confidence": 64,
+      "score": 164,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "interaction cost",
+      "signal": 88,
+      "slack": 24,
+      "drag": 17,
+      "confidence": 74,
+      "score": 223,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "view drift",
+      "signal": 56,
+      "slack": 48,
+      "drag": 9,
+      "confidence": 64,
+      "score": 197,
+      "lane": "ship"
+    }
+  ]
+}

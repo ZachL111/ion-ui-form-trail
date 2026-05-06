@@ -1,68 +1,40 @@
 # ion-ui-form-trail
 
-`ion-ui-form-trail` is a focused Lua codebase around develop a Lua command-oriented project for form scenarios with framed sample traffic, bounds and ordering tests, and explicit failure cases. It is meant to be easy to inspect, run, and extend without a hosted service.
+`ion-ui-form-trail` keeps a focused Lua implementation around frontend apps. The project goal is to develop a Lua command-oriented project for form scenarios with framed sample traffic, bounds and ordering tests, and explicit failure cases.
 
-## Ion UI Form Trail Walkthrough
+## Why I Keep It Small
 
-I would read the project from the outside in: command, fixture, model, then roadmap. That keeps the frontend apps idea grounded in files that can be checked locally.
+The point is to make a small domain rule concrete enough that a reader can change it and immediately see what broke.
 
-## Reason For The Project
+## Ion UI Form Trail Review Notes
 
-The goal is to capture the core behavior in code and make the surrounding assumptions obvious. A reader should be able to run the verifier, open the fixtures, and understand why each decision was made.
+Start with `interaction cost` and `view drift`. Those cases create the widest score spread in this repo, so they are the best quick check when the model changes.
 
-## Data Notes
+## Included Behavior
 
-The extended cases are not random smoke tests. `degraded` keeps pressure on the review path, while `surge` shows the model when capacity and weight are strong enough to clear the threshold.
+- `fixtures/domain_review.csv` adds cases for view drift and state pressure.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/ion-ui-form-walkthrough.md` walks through the case spread.
+- The Lua code includes a review path for `interaction cost` and `view drift`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## How It Is Put Together
+## Internal Model
 
-The core is a scoring model over demand, capacity, latency, risk, and weight. That keeps view models, interaction state, and layout checks in one explicit decision path. The threshold is 157, with risk penalty 7, latency penalty 2, and weight bonus 5. The Lua project keeps the module shape simple and validates behavior through a direct script.
+The implementation keeps the scoring rule plain: reward signal and confidence, preserve slack, penalize drag, then classify the result into a review lane.
 
-## Capabilities
+The Lua implementation avoids hidden state so fixture changes are easy to reason about.
 
-- Models view models with deterministic scoring and explicit review decisions.
-- Uses fixture data to keep interaction state changes visible in code review.
-- Includes extended examples for layout checks, including `surge` and `degraded`.
-- Documents fixture data tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-
-## Command Examples
+## Try It Locally
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Validation
 
-## Check The Work
+The same command runs the local verification path. The highest-scoring domain case is `recovery` at 223, which lands in `ship`. The most cautious case is `baseline` at 153, which lands in `ship`.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Scope
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Where Things Live
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Possible Extensions
-
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add one more frontend apps fixture that focuses on a malformed or borderline input.
-
-## Tradeoffs
-
-The examples cover useful edges, not every edge. A larger version would add malformed-input tests, richer reports, and deeper domain parsers.
-
-## Getting It Running
-
-The only required setup is the local Lua toolchain. After cloning, stay in the repo root so fixture paths resolve correctly.
+No external service is required. A deeper version would add more negative cases and a clearer boundary around invalid input.
