@@ -1,0 +1,28 @@
+{
+  "repo": "ion-ui-form-trail",
+  "language": "Lua",
+  "category": "Frontend apps",
+  "goal": "Develop a Lua command-oriented project for form scenarios with framed sample traffic, bounds and ordering tests, and explicit failure cases.",
+  "weights": {
+    "signal": 3,
+    "slack": 2,
+    "confidence": 1,
+    "drag": 3
+  },
+  "thresholds": {
+    "ship": 187,
+    "watch": 122
+  },
+  "properties": [
+    "raising signal cannot reduce score",
+    "raising drag cannot improve score",
+    "lane labels must match configured thresholds",
+    "golden fixture ids must remain unique"
+  ],
+  "fixture_files": [
+    "fixtures/golden/scoreboard.csv",
+    "fixtures/golden/lane-matrix.csv",
+    "fixtures/fuzz/mutations.csv",
+    "fixtures/fuzz/boundary-cases.jsonl"
+  ]
+}
